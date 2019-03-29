@@ -1,0 +1,16 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/shape_rect_left"
+          android:width="39dp"/>
+    <item android:drawable="@drawable/shape_rect"
+          android:width="39dp"
+          android:left="40dp"/>
+    <item android:drawable="@drawable/shape_rect"
+          android:width="39dp"
+          android:left="80dp"/>
+    <item android:drawable="@drawable/shape_rect"
+          android:width="39dp"
+          android:left="120dp"/>
+    <item android:drawable="@drawable/shape_rect_right"
+          android:width="39dp"
+          android:left="160dp"/>
+</layer-list>

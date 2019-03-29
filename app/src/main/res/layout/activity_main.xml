@@ -19,6 +19,48 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_padding"
                 android:layout_marginEnd="@dimen/default_padding"
+                android:text="Several ImageView version :"/>
+
+        <com.lagache.sylvain.levelimageview.SeveralViewLevelImageView
+                android:id="@+id/several_imageveiw_level_imageview"
+                android:layout_width="200dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/default_padding"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_padding"
+                android:layout_marginEnd="@dimen/default_padding"
+                android:text="Several Drawable version :"/>
+
+        <com.lagache.sylvain.levelimageview.SeveralDrawableLevelImageView
+                android:id="@+id/several_drawable_level_imageview"
+                android:layout_width="200dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/default_padding"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_padding"
+                android:layout_marginEnd="@dimen/default_padding"
+                android:text="Level Drawable version :"/>
+
+        <com.lagache.sylvain.levelimageview.LevelDrawableLevelImageView
+                android:id="@+id/level_drawable_level_imageview"
+                android:layout_width="200dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/default_padding"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_padding"
+                android:layout_marginEnd="@dimen/default_padding"
                 android:text="Draw version :"/>
 
         <com.lagache.sylvain.levelimageview.DrawLevelImageView

@@ -9,6 +9,9 @@ import android.view.View
 
 /**
  * Level ImageView with draw.
+ *
+ * This view is a [View].
+ * Each time the view model is set, a color is selected and the view is invalidated to call the function [View.onDraw].
  */
 class DrawLevelImageView @JvmOverloads constructor(
     context: Context,
@@ -17,7 +20,9 @@ class DrawLevelImageView @JvmOverloads constructor(
     defStyleRes: Int = 0
 ) : View(context, attrs, defStyle, defStyleRes) {
 
-    private val MAX_LEVEL = 5
+    companion object {
+        private const val MAX_LEVEL = 5
+    }
 
     private var paint: Paint
 
@@ -46,13 +51,13 @@ class DrawLevelImageView @JvmOverloads constructor(
      */
     fun setViewModel(level: Int) {
         this.level = level
-        when (level) {
-            1 -> levelColor = ContextCompat.getColor(context, R.color.level_1)
-            2 -> levelColor = ContextCompat.getColor(context, R.color.level_2)
-            3 -> levelColor = ContextCompat.getColor(context, R.color.level_3)
-            4 -> levelColor = ContextCompat.getColor(context, R.color.level_4)
-            5 -> levelColor = ContextCompat.getColor(context, R.color.level_5)
-            else -> levelColor = ContextCompat.getColor(context, R.color.level_1)
+        levelColor = when (level) {
+            1 -> ContextCompat.getColor(context, R.color.level_1)
+            2 -> ContextCompat.getColor(context, R.color.level_2)
+            3 -> ContextCompat.getColor(context, R.color.level_3)
+            4 -> ContextCompat.getColor(context, R.color.level_4)
+            5 -> ContextCompat.getColor(context, R.color.level_5)
+            else -> ContextCompat.getColor(context, R.color.level_1)
         }
         invalidate()
     }
