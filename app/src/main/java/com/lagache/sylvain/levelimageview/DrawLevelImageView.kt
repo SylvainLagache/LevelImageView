@@ -75,31 +75,66 @@ class DrawLevelImageView @JvmOverloads constructor(
         val rectWidth = width / MAX_LEVEL - dividerWidth
 
         for (i in 0 until MAX_LEVEL) {
-            val start = (rectWidth + dividerWidth) * i
-            paint.color = if (level > i) levelColor else defaultColor
+            val start = (rectWidth + dividerWidth) * i //Start of the rect at the end of last rect + 1dp
+            paint.color = if (level > i) levelColor else defaultColor //Select current color (level or default)
+
             if (i == 0) {
                 drawFirstRect(canvas, start, start + rectWidth, height, cornerRadius)
             } else if (i == MAX_LEVEL - 1) {
                 drawLastRect(canvas, start, start + rectWidth, height, cornerRadius)
             } else {
-                canvas.drawRect(start.toFloat(), 0f, (start + rectWidth).toFloat(), height.toFloat(), paint)
+                drawMiddleRect(canvas, start, (start + rectWidth), height)
             }
         }
     }
 
+    /**
+     * Draw the first rectangle
+     *
+     * @param canvas        canvas to draw on.
+     * @param start         start of the rectangle.
+     * @param end           end of the rectangle.
+     * @param height        height of the rectangle.
+     * @param cornerRadius  corner radius of the rectangle.
+     */
     private fun drawFirstRect(canvas: Canvas, start: Int, end: Int, height: Int, cornerRadius: Int) {
+        // Draw round rect.
         canvas.drawRoundRect(
             start.toFloat(), 0f, end.toFloat(), height.toFloat(),
             cornerRadius.toFloat(), cornerRadius.toFloat(), paint
         )
+        //Draw rect at the end to make the right corner radius disappear.
         canvas.drawRect((end - cornerRadius).toFloat(), 0f, end.toFloat(), height.toFloat(), paint)
     }
 
+    /**
+     * Draw the middle rectangle
+     *
+     * @param canvas        canvas to draw on.
+     * @param start         start of the rectangle.
+     * @param end           end of the rectangle.
+     * @param height        height of the rectangle.
+     */
+    private fun drawMiddleRect(canvas: Canvas, start: Int, end: Int, height: Int) {
+        canvas.drawRect(start.toFloat(), 0f, end.toFloat(), height.toFloat(), paint)
+    }
+
+    /**
+     * Draw the Last rectangle
+     *
+     * @param canvas        canvas to draw on.
+     * @param start         start of the rectangle.
+     * @param end           end of the rectangle.
+     * @param height        height of the rectangle.
+     * @param cornerRadius  corner radius of the rectangle.
+     */
     private fun drawLastRect(canvas: Canvas, start: Int, end: Int, height: Int, cornerRadius: Int) {
+        // Draw round rect.
         canvas.drawRoundRect(
             start.toFloat(), 0f, end.toFloat(), height.toFloat(),
             cornerRadius.toFloat(), cornerRadius.toFloat(), paint
         )
+        //Draw rect at the start to make the left corner radius disappear.
         canvas.drawRect(start.toFloat(), 0f, (start + cornerRadius).toFloat(), height.toFloat(), paint)
     }
 }
