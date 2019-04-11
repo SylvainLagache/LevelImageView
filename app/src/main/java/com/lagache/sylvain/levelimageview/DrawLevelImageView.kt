@@ -32,7 +32,7 @@ class DrawLevelImageView @JvmOverloads constructor(
 
     private var defaultColor: Int = 0
 
-    private var levelColor: Int = 0
+    private var levelColors: List<Int>
 
     init {
         dividerWidth = context.resources.getDimensionPixelOffset(R.dimen.divider_with)
@@ -41,7 +41,14 @@ class DrawLevelImageView @JvmOverloads constructor(
         paint.style = Paint.Style.FILL
 
         defaultColor = ContextCompat.getColor(context, R.color.grey_300)
-        levelColor = defaultColor
+        levelColors = listOf(
+            ContextCompat.getColor(context, R.color.grey_300),
+            ContextCompat.getColor(context, R.color.level_1),
+            ContextCompat.getColor(context, R.color.level_2),
+            ContextCompat.getColor(context, R.color.level_3),
+            ContextCompat.getColor(context, R.color.level_4),
+            ContextCompat.getColor(context, R.color.level_5)
+        )
     }
 
     /**
@@ -50,15 +57,10 @@ class DrawLevelImageView @JvmOverloads constructor(
      * @param strength view model to display.
      */
     fun setViewModel(level: Int) {
-        this.level = level
-        levelColor = when (level) {
-            1 -> ContextCompat.getColor(context, R.color.level_1)
-            2 -> ContextCompat.getColor(context, R.color.level_2)
-            3 -> ContextCompat.getColor(context, R.color.level_3)
-            4 -> ContextCompat.getColor(context, R.color.level_4)
-            5 -> ContextCompat.getColor(context, R.color.level_5)
-            else -> ContextCompat.getColor(context, R.color.level_1)
+        if (level > MAX_LEVEL) {
+            throw IllegalStateException("Level not handled")
         }
+        this.level = level
         invalidate()
     }
 
@@ -76,7 +78,7 @@ class DrawLevelImageView @JvmOverloads constructor(
 
         for (i in 0 until MAX_LEVEL) {
             val start = (rectWidth + dividerWidth) * i //Start of the rect at the end of last rect + 1dp
-            paint.color = if (level > i) levelColor else defaultColor //Select current color (level or default)
+            paint.color = if (level > i) levelColors[level] else defaultColor //Select current color (level or default)
 
             if (i == 0) {
                 drawFirstRect(canvas, start, start + rectWidth, height, cornerRadius)
@@ -98,11 +100,13 @@ class DrawLevelImageView @JvmOverloads constructor(
      * @param cornerRadius  corner radius of the rectangle.
      */
     private fun drawFirstRect(canvas: Canvas, start: Int, end: Int, height: Int, cornerRadius: Int) {
+
         // Draw round rect.
         canvas.drawRoundRect(
             start.toFloat(), 0f, end.toFloat(), height.toFloat(),
             cornerRadius.toFloat(), cornerRadius.toFloat(), paint
         )
+
         //Draw rect at the end to make the right corner radius disappear.
         canvas.drawRect((end - cornerRadius).toFloat(), 0f, end.toFloat(), height.toFloat(), paint)
     }
@@ -129,12 +133,20 @@ class DrawLevelImageView @JvmOverloads constructor(
      * @param cornerRadius  corner radius of the rectangle.
      */
     private fun drawLastRect(canvas: Canvas, start: Int, end: Int, height: Int, cornerRadius: Int) {
-        // Draw round rect.
+
+        //Save the current canvas state (matrix and clip)
+        canvas.save()
+
+        //Limit the draw to the rect clipped
+        canvas.clipRect(start, 0, end, height)
+
+        //Draw round rect larger on the left but outside the clip
         canvas.drawRoundRect(
-            start.toFloat(), 0f, end.toFloat(), height.toFloat(),
+            start.toFloat() - cornerRadius * 2f, 0f, end.toFloat(), height.toFloat(),
             cornerRadius.toFloat(), cornerRadius.toFloat(), paint
         )
-        //Draw rect at the start to make the left corner radius disappear.
-        canvas.drawRect(start.toFloat(), 0f, (start + cornerRadius).toFloat(), height.toFloat(), paint)
+
+        //Restore the canvas state.
+        canvas.restore()
     }
 }
